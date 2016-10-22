@@ -7,7 +7,8 @@ MovieApp.Views.Search = Backbone.View.extend({
       'click button' : 'getmovies'
     },
 
-    initialize: function(options) {},
+    initialize: function(options) {
+    },
 
     render: function()
     {
@@ -19,6 +20,16 @@ MovieApp.Views.Search = Backbone.View.extend({
       var title = this.$el.find('input').val();
       var movies = new MovieApp.Collections.Movies({title: title});
 
-      movies.fetch();
+      movies.fetch({success: this.rendermovies.bind(this)});
+    },
+
+    rendermovies: function(movies){
+      var movieview;
+      this.$el.find('#movie-list').empty();
+
+      for (var n in movies.models){
+        movieview = new MovieApp.Views.MovieView({model: movies.models[n]});
+        this.$el.find('#movie-list').append(movieview.render().el);
+      }
     }
 });
