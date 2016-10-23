@@ -1,6 +1,7 @@
 MovieApp.Views.MovieView = Backbone.View.extend({
 
-  tagName: 'li',
+  template: _.template(`<li><%= Title %>
+                        (<%= Year %>)</li>`),
 
     initialize: function(options) {
       if (options.model)
@@ -8,7 +9,7 @@ MovieApp.Views.MovieView = Backbone.View.extend({
     },
 
     render: function(){
-      this.$el.html(this.model.attributes.Title+" ("+this.model.attributes.Year+")");
+      this.$el.html(this.template(this.model.toJSON()));
       return this;
     }
 });
